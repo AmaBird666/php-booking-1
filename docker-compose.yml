@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  mysql-buscompany:
+    image: mysql:8.0
+    container_name: mysql-buscompany
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: buscompany
+      MYSQL_USER: bususer
+      MYSQL_PASSWORD: buspass
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+    name: mysql-buscompany-data
+
