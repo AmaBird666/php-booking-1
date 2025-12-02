@@ -44,6 +44,9 @@
                                 <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.users.*') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }} text-sm font-medium">
                                     Пользователи
                                 </a>
+                                <a href="{{ route('admin.stats') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.stats') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }} text-sm font-medium">
+                                    Статистика
+                                </a>
                             @elseif(auth()->user()->isManager())
                                 <a href="{{ route('manager.dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('manager.dashboard') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }} text-sm font-medium">
                                     Панель управления

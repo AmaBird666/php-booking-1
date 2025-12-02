@@ -44,4 +44,9 @@ class Route extends Model
     {
         return $query->where('approved', true);
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

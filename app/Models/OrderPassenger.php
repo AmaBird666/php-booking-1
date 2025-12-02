@@ -10,6 +10,13 @@ class OrderPassenger extends Model
         'ticket',
         'order_id',
         'passenger_id',
+        'with_pet',
+        'price',
+    ];
+
+    protected $casts = [
+        'with_pet' => 'boolean',
+        'price' => 'decimal:2',
     ];
 
 

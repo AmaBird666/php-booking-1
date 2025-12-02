@@ -10,6 +10,7 @@ use App\Models\Route;
 use App\Models\RouteSchedule;
 use App\Models\Trip;
 use App\Models\Passenger;
+use App\Models\Seat;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         Admin::truncate();
         Client::truncate();
+        Seat::truncate();
         Bus::truncate();
         Route::truncate();
         Trip::truncate();
@@ -68,7 +70,29 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($buses as $busData) {
-            Bus::create($busData);
+            $bus = Bus::create($busData);
+            
+            // Создаем места для автобуса
+            // Распределение: места у окна (1, 2, 5, 6, 9, 10...), места с животными (последние 2-4 места)
+            $places = $bus->places;
+            $seatsPerRow = 4; // 2+2 конфигурация
+            $petSeatsCount = min(4, max(2, floor($places * 0.1))); // 10% мест для животных, минимум 2, максимум 4
+            
+            for ($i = 1; $i <= $places; $i++) {
+                // Определяем, является ли место у окна
+                // Каждое четное место (2, 4, 6, 8...) - место у окна
+                $isWindow = ($i % 2 == 0);
+                
+                // Последние места для животных
+                $allowsPet = $i > ($places - $petSeatsCount);
+                
+                Seat::create([
+                    'bus_id' => $bus->id,
+                    'number' => $i,
+                    'is_window' => $isWindow,
+                    'allows_pet' => $allowsPet,
+                ]);
+            }
         }
 
         $routes = [

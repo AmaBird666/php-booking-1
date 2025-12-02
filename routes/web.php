@@ -25,8 +25,6 @@ Route::get('/payment/{order}', [PaymentController::class, 'page'])->name('paymen
 Route::post('/payment/{order}', [PaymentController::class, 'process'])->name('payment.process');
 Route::get('/payment-success', [PaymentController::class, 'success'])->name('payment.success');
 
-// статистика для админа
-Route::get('/admin/stats', [StatsController::class, 'index'])->middleware('auth')->name('admin.stats');
 // Главная страница
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -43,6 +41,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 // Маршруты для администратора
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/stats', [StatsController::class, 'index'])->name('stats');
 
     Route::resource('users', UserController::class);
     Route::post('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
@@ -72,6 +71,8 @@ Route::middleware(['auth', 'role:client'])->prefix('client')->name('client.')->g
     Route::get('/orders/create/{trip}', [OrderController::class, 'create'])->name('orders.create');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{order}/payment', [OrderController::class, 'payment'])->name('orders.payment');
+    Route::post('/orders/{order}/payment', [OrderController::class, 'processPayment'])->name('orders.payment.process');
     Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
     // Управление пассажирами
